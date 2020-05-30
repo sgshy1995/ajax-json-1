@@ -27,7 +27,13 @@ var server = http.createServer(function (request, response) {
         let string = fs.readFileSync('public/index.html').toString()
         response.write(string)
         response.end()
-    } else if (path === '/main.js') {
+    } else if (path === '/2.html') {
+        response.statusCode = 200
+        response.setHeader('Content-Type', 'text/html;charset=utf-8')
+        let string = fs.readFileSync('public/2.html').toString()
+        response.write(string)
+        response.end()
+    }else if (path === '/main.js') {
         response.statusCode = 200
         response.setHeader('Content-Type', 'text/javascript;charset=utf-8')
         response.write(fs.readFileSync('public/main.js'))
@@ -42,7 +48,13 @@ var server = http.createServer(function (request, response) {
         response.setHeader('Content-Type', 'text/css;charset=utf-8')
         response.write(fs.readFileSync('public/style.css'))
         response.end()
-    } else {
+    } else if (path === '/3.xml') {
+        response.statusCode = 200
+        response.setHeader('Content-Type', 'text/xml;charset=utf-8')
+        response.write(fs.readFileSync('public/3.xml'))
+        response.end()
+    }
+    else {
         response.statusCode = 404
         response.setHeader('Content-Type', 'text/html;charset=utf-8')
         response.write(`你输入的路径不存在对应的内容`)
