@@ -51,3 +51,36 @@ getXML.onclick = () => {
     }
     request.send()
 }
+
+getJSON.onclick = () => {
+    const request = new XMLHttpRequest()
+    request.open('get', '/4.json')
+    request.onreadystatechange = () => {
+        if (request.readyState === 4 && request.status === 200) {
+            const text = request.response
+            const object = JSON.parse(text)
+            console.log(typeof object)
+            console.log(object)
+            myName.innerText = object.name
+            myName.style.color= 'grey'
+        }
+    }
+    request.send()
+}
+let n = 2
+getPAGE.onclick = () => {
+    const request = new XMLHttpRequest()
+    request.open('get', `/page${n}`)
+    request.onreadystatechange = () => {
+        if (request.readyState === 4 && request.status === 200) {
+            const array = JSON.parse(request.response)
+            array.forEach(item => {
+                const li = document.createElement('li')
+                li.textContent = item.id
+                hope.appendChild(li)
+            });
+        }
+    }
+    n+=1
+    request.send()
+}

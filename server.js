@@ -21,10 +21,14 @@ var server = http.createServer(function (request, response) {
 
     console.log('有个傻子发请求过来啦！路径（带查询参数）为：' + pathWithQuery)
 
-    if (path === '/index.html') {
+    if (path === '/index.html' || path === '/') {
         response.statusCode = 200
         response.setHeader('Content-Type', 'text/html;charset=utf-8')
         let string = fs.readFileSync('public/index.html').toString()
+        const text = fs.readFileSync('database/page1.json').toString()
+        const array = JSON.parse(text)
+        const result = array.map(item => `<li>${item.id}</li>`).join('')
+        string = string.replace('{{page1}}', `<ul id='hope'>${result}</ul>`)
         response.write(string)
         response.end()
     } else if (path === '/2.html') {
@@ -33,7 +37,7 @@ var server = http.createServer(function (request, response) {
         let string = fs.readFileSync('public/2.html').toString()
         response.write(string)
         response.end()
-    }else if (path === '/main.js') {
+    } else if (path === '/main.js') {
         response.statusCode = 200
         response.setHeader('Content-Type', 'text/javascript;charset=utf-8')
         response.write(fs.readFileSync('public/main.js'))
@@ -52,6 +56,21 @@ var server = http.createServer(function (request, response) {
         response.statusCode = 200
         response.setHeader('Content-Type', 'text/xml;charset=utf-8')
         response.write(fs.readFileSync('public/3.xml'))
+        response.end()
+    } else if (path === '/4.json') {
+        response.statusCode = 200
+        response.setHeader('Content-Type', 'text/json;charset=utf-8')
+        response.write(fs.readFileSync('public/4.json'))
+        response.end()
+    } else if (path === '/page2') {
+        response.statusCode = 200
+        response.setHeader('Content-Type', 'text/json;charset=utf-8')
+        response.write(fs.readFileSync('database/page2.json'))
+        response.end()
+    } else if (path === '/page3') {
+        response.statusCode = 200
+        response.setHeader('Content-Type', 'text/json;charset=utf-8')
+        response.write(fs.readFileSync('database/page3.json'))
         response.end()
     }
     else {
